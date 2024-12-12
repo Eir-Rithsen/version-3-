@@ -1,4 +1,4 @@
-// === Archivo: frontend/index.html ===
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,56 +55,3 @@
 </body>
 </html>
 
-// === Archivo: frontend/styles.css ===
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
-
-.login-container {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label, input, button {
-    margin: 10px 0;
-}
-
-// === Archivo: frontend/script.js ===
-const form = document.getElementById('loginForm');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const nombre = document.getElementById('nombre').value;
-    const legajo = document.getElementById('legajo').value;
-
-    const response = await fetch('/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, legajo })
-    });
-
-    const result = await response.json();
-    if (response.ok) {
-        alert('Login exitoso');
-        document.querySelector('.login-container').style.display = 'none';
-        document.getElementById('charts-container').style.display = 'block';
-        // Añadir lógica para mostrar gráficos con datos recibidos
-    } else {
-        alert('Error: ' + result.error);
-    }
-});
