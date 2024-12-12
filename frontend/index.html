@@ -1,0 +1,110 @@
+// === Archivo: frontend/index.html ===
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Estudiantil</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Inicio de Sesión</h1>
+        <form id="loginForm">
+            <label for="nombre">Nombre y Apellido:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="legajo">Nº de Legajo:</label>
+            <input type="text" id="legajo" name="legajo" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+    <div id="charts-container" style="display:none;">
+        <h2>Estadísticas</h2>
+        <canvas id="chart1"></canvas>
+        <canvas id="chart2"></canvas>
+    </div>
+    <script>
+        const form = document.getElementById('loginForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const legajo = document.getElementById('legajo').value;
+
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, legajo })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert('Login exitoso');
+                document.querySelector('.login-container').style.display = 'none';
+                document.getElementById('charts-container').style.display = 'block';
+                // Añadir lógica para mostrar gráficos con datos recibidos
+            } else {
+                alert('Error: ' + result.error);
+            }
+        });
+    </script>
+</body>
+</html>
+
+// === Archivo: frontend/styles.css ===
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.login-container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, input, button {
+    margin: 10px 0;
+}
+
+// === Archivo: frontend/script.js ===
+const form = document.getElementById('loginForm');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const legajo = document.getElementById('legajo').value;
+
+    const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, legajo })
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+        alert('Login exitoso');
+        document.querySelector('.login-container').style.display = 'none';
+        document.getElementById('charts-container').style.display = 'block';
+        // Añadir lógica para mostrar gráficos con datos recibidos
+    } else {
+        alert('Error: ' + result.error);
+    }
+});
